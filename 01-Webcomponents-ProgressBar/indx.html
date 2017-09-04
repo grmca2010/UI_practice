@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./webcomponent.js"></script>
+    </head> 
+    <body>
+      <progress-bar ></progress-bar>
+
+      <script>
+            (function(){
+                var progress = document.querySelector('progress-bar');
+                complete = 0;
+                var progressInterval= setInterval(function() {
+                    complete+=1;
+                    console.log(complete,"hello");
+                    if(complete <= 100 ){
+                        progress.setAttribute('complete',complete);
+                    }
+                    else {
+                        clearInterval(progressInterval);
+                    } 
+                },100)
+                
+            })();
+      </script>
+    </body>
+</html>
