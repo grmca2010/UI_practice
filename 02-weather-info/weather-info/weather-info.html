@@ -1,0 +1,57 @@
+<template id="weather-info">
+    <style>
+        :host {
+            border: 1px solid green;
+            display: block;
+            padding: 1em;
+
+        }
+    </style>
+    <h1>Weather in <span id="city"></span></h1>
+    <p>
+            <span id="temperature"></span> -  <span id="description"></span>                   
+    </p>
+</template>
+
+<script>
+    const tpl=(document.currentScript || document._currentScript).ownerDocument.querySelector('template').content;
+    class WeatherInfo extends HTMLElement {
+        connectedCallback(){
+            this.attachShadow({mode:'open'});
+            const content= document.importNode(tpl,true);
+            content.querySelector('#city').textContent = this.city;
+            this.shadowRoot.appendChild(content);
+            console.log("hello");
+        }
+        get city() {
+            return this.getAttribute('city');            
+        }
+        set city(value) {
+            this.setAttribute('city',value);
+        }
+        static get observedAttributes() {
+            return ['city','imperial'];
+        } 
+        attributeChangedCallback(name,oldvalue,newvalue){
+            console.log(name,oldvalue,newvalue);
+            if(oldvalue !== null ){
+                this.update();
+            }            
+        }
+        update(){
+            console.log("called1");
+            this.shadowRoot.querySelector("#city").textContent = this.city;
+            /* 
+            this.dispatchEvent(new CustomEvent('load',{
+                detail:{
+                    temperature:`$(result.main.temp?'F':'C'),
+                    description: result.wether[0].main
+
+                }
+            }))
+            
+            */
+        }
+    }
+    customElements.define("weather-info",WeatherInfo);
+</script>
